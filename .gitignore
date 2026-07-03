@@ -6,4 +6,3 @@ venv/
 *.log
 .DS_Store
 samconfig.tomls
-p.txt

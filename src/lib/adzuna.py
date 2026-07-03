@@ -42,8 +42,6 @@ class AdzunaClient:
         what: str,
         where: str = "",
         results_per_page: int = 20,
-        page: int = 1,
-        sort_by: str = "date",
     ) -> list[dict]:
         """
         Search for jobs by keyword and location.
@@ -63,18 +61,14 @@ class AdzunaClient:
         params = {
             "app_id":           self.app_id,
             "app_key":          self.app_key,
-            "results_per_page": results_per_page,
-            "page":             page,
-            "sort_by":          sort_by,
-            "content-type":     "application/json",
+            "results_per_page": str(results_per_page),
+            "what": what
         }
 
-        if what:
-            params["what"] = what
         if where:
             params["where"] = where
 
-        url      = f"{self.base}/search/{page}"
+        url      = f"{self.base}/search"
         response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
 
@@ -89,9 +83,8 @@ class AdzunaClient:
         params = {
             "app_id":       self.app_id,
             "app_key":      self.app_key,
-            "content-type": "application/json",
         }
-
+        
         url      = f"{self.base}/categories"
         response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
